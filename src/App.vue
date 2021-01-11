@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import Header from './components/layout/Header.vue'
 import Todos from './components/Todos.vue';
 import AddTodo from './components/AddTodo';
@@ -21,23 +22,7 @@ export default {
   },
   data(){
     return {
-     todos: [
-       {
-         id: 1,
-         title: "Todo One",
-         completed: false
-       },
-        {
-         id: 2,
-         title: "Todo Two",
-         completed: false
-       },
-        {
-         id: 3,
-         title: "Todo Three",
-         completed: false
-       },
-     ]
+     todos: []
     }
     },
     methods: {
@@ -46,6 +31,11 @@ export default {
       },
       addTodo(newTodo){
         this.todos = [...this.todos, newTodo]
+      },
+      created(){
+        axios.get('https://jsonplaceholder.typicode.com/todos')
+        .then(res=> this.todos = res.data)
+        .catch(err=>console.log(err))
       }
     }
   }
